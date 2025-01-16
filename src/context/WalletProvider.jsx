@@ -13,7 +13,7 @@ export const WalletContext = createContext({
 
 export default function WalletProvider(props) {
 	const [address, setAddress] = useState(localStorage.getItem('address'))
-	const [addressInfo, setAddressInfo] = useState(localStorage.getItem('addressInfo'))
+	const [addressInfo, setAddressInfo] = useState(JSON.parse(localStorage.getItem('addressInfo')))
 	const [addresses, setAddresses] = useState([''])
 	const [wallet, setWallet] = useState(null)
 	const [selectAddressOpen, setSelectAddressOpen] = useState(false)
@@ -45,7 +45,7 @@ export default function WalletProvider(props) {
 		setAddressInfo(address)
 		setAddress(address.address);
 		localStorage.setItem('address', address.address);
-		localStorage.setItem('addressInfo', address);
+		localStorage.setItem('addressInfo', JSON.stringify(address));
 		setSelectAddressOpen(false)
 	}
 
