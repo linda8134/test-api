@@ -7,11 +7,13 @@ import { DialogContent, DialogTitle, Typography } from '@mui/material';
 export const WalletContext = createContext({
 	address:'',
 	setAddress: null,
+	addressInfo: {},
 	handleConnect: () => {}
 });
 
 export default function WalletProvider(props) {
 	const [address, setAddress] = useState(localStorage.getItem('address'))
+	const [addressInfo, setAddressInfo] = useState(localStorage.getItem('address'))
 	const [addresses, setAddresses] = useState([''])
 	const [wallet, setWallet] = useState(null)
 	const [selectAddressOpen, setSelectAddressOpen] = useState(false)
@@ -40,7 +42,8 @@ export default function WalletProvider(props) {
 	},[address])
 
 	const handleSelectAddress = (address) => {
-		setAddress(address);
+		setAddressInfo(address)
+		setAddress(address.address);
 		localStorage.setItem('address', address);
 		setSelectAddressOpen(false)
 	}
@@ -57,13 +60,15 @@ export default function WalletProvider(props) {
 			setAddress,
 			handleConnect,
 			disconnected,
+			addressInfo
 		};
 	}, [
 		address,
 		setAddress,
 		handleConnect,
 		disconnected,
-		wallet
+		wallet,
+		addressInfo
 	]);
 
 	return (
@@ -91,7 +96,7 @@ const SelectAddressDialog = (props) => {
 				<Box className='space-y-4'>
 					{accounts?.map(item => {
 						return (
-							<Box onClick={() => handleSelectAddress(item.address)} key={item?.address}>
+							<Box onClick={() => handleSelectAddress(item)} key={item?.address}>
 								<Typography variant='body1' noWrap fontWeight={700}>{item.name}</Typography>
 								<Typography color='text.secondary' variant='body2'>{item.address}</Typography>
 							</Box>

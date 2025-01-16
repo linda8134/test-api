@@ -24,10 +24,11 @@ import dayjs from 'dayjs';
 
 
 export default function Post(){
-  const {address, wallet} = useWalletContext()
+  const {address, wallet, addressInfo} = useWalletContext()
   const {subspaceList = []} = useArticleContext();
   const navigate = useNavigate()
   const [loading, setLoading] = useState(false)
+  console.log('address', address, addressInfo);
   const formik = useFormik({
     initialValues: {
       'id':BigInt(1),
